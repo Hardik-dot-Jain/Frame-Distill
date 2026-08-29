@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ data.project_name }} - Video Distillation Report</title>
+  
+  {% if inline_assets %}
+  <style>
+    {{ css_content }}
+  </style>
+  {% else %}
+  <link rel="stylesheet" href="../static/css/style.css">
+  {% endif %}
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="report-header">
+      <div class="header-badge">Frame-Distill · AI Report</div>
+      <h1 class="report-title">{{ data.project_name }}</h1>
+      <p class="report-summary">{{ data.summary }}</p>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Source Video</div>
+          <div class="stat-value" style="font-size: 1rem; word-break: break-all;">{{ data.source_video }}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Ingested</div>
+          <div class="stat-value">{{ data.total_frames_extracted }} frames</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Key Highlights</div>
+          <div class="stat-value">{{ data.distilled_key_frames_count or (data.frames | length) }} frames</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Generated At</div>
+          <div class="stat-value" style="font-size: 0.95rem;">{{ data.generated_at }}</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Filter & Search Controls -->
+    <section class="controls-bar">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" class="search-input" placeholder="Search keywords, topics, OCR text...">
+      </div>
+
+      <div class="filter-tags">
+        <button class="filter-btn active" data-filter="all">All Topics</button>
+        {% for topic in data.topics %}
+        <button class="filter-btn" data-filter="{{ topic }}">{{ topic }}</button>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Keyframe Cards Grid -->
+    <main class="frames-grid">
+      {% for frame in data.frames %}
+      <article class="frame-card" 
+               data-title="{{ frame.title }}" 
+               data-summary="{{ frame.summary }}" 
+               data-ocr="{{ frame.ocr_text }}" 
+               data-tags="{{ frame.tags | join(' ') }}">
+        
+        <div class="frame-media">
+          <img src="{{ frame.image_path }}" 
+               alt="{{ frame.title }}" 
+               class="frame-img" 
+               loading="lazy"
+               onerror="this.onerror=null; this.src='https://placehold.co/600x338/1e293b/38bdf8?text=' + encodeURIComponent('{{ frame.title }}');">
+          <span class="frame-timestamp">{{ frame.timestamp }}</span>
+          {% if frame.importance_score %}
+          <span class="frame-score">{{ (frame.importance_score * 100) | round | int }}% match</span>
+          {% endif %}
+        </div>
+
+        <div class="frame-content">
+          <h2 class="frame-title">{{ frame.title }}</h2>
+          <p class="frame-desc">{{ frame.summary }}</p>
+
+          {% if frame.key_points %}
+          <ul class="key-points-list">
+            {% for point in frame.key_points %}
+            <li>{{ point }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          <div class="card-tags">
+            {% for tag in frame.tags %}
+            <span class="badge">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </main>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div id="lightbox-modal" class="modal">
+    <div class="modal-content">
+      <button id="modal-close" class="modal-close">&times;</button>
+      <img id="modal-img" class="modal-img" src="" alt="Frame preview">
+      <div class="modal-caption">
+        <h3 id="modal-title" style="margin-bottom: 0.5rem;"></h3>
+        <p id="modal-desc" style="color: var(--text-secondary);"></p>
+      </div>
+    </div>
+  </div>
+
+  {% if inline_assets %}
+  <script>
+    {{ js_content }}
+  </script>
+  {% else %}
+  <script src="../static/js/script.js"></script>
+  {% endif %}
+</body>
+</html>

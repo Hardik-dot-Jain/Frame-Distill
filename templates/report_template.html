@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Frame Distill Report</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#131315",
+                        "on-tertiary": "#472a00",
+                        "surface-container": "#1f2021",
+                        "tertiary": "#ffb95f",
+                        "inverse-primary": "#516072",
+                        "surface": "#131315",
+                        "secondary-fixed": "#6ffbbe",
+                        "secondary": "#4edea3",
+                        "surface-container-high": "#2a2a2b",
+                        "on-surface": "#e4e2e3",
+                        "inverse-surface": "#e4e2e3",
+                        "surface-tint": "#b9c8de",
+                        "tertiary-container": "#e19000",
+                        "on-surface-variant": "#c4c6cd",
+                        "primary-container": "#94a3b8",
+                        "tertiary-fixed": "#ffddb8",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-tertiary-fixed-variant": "#653e00",
+                        "primary-fixed": "#d4e4fa",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "error": "#ffb4ab",
+                        "surface-dim": "#131315",
+                        "surface-container-lowest": "#0e0e0f",
+                        "primary-fixed-dim": "#b9c8de",
+                        "on-primary-fixed": "#0d1c2d",
+                        "error-container": "#93000a",
+                        "on-background": "#e4e2e3",
+                        "on-primary": "#233143",
+                        "outline-variant": "#44474c",
+                        "primary": "#b9c8de",
+                        "outline": "#8e9197",
+                        "on-primary-container": "#2b394b",
+                        "on-secondary": "#003824",
+                        "secondary-fixed-dim": "#4edea3",
+                        "on-tertiary-fixed": "#2a1700",
+                        "surface-container-low": "#1b1b1d",
+                        "on-secondary-fixed": "#002113",
+                        "on-secondary-container": "#00311f",
+                        "surface-container-highest": "#343536",
+                        "inverse-on-surface": "#303032",
+                        "surface-bright": "#39393a",
+                        "on-primary-fixed-variant": "#39485a",
+                        "secondary-container": "#00a572",
+                        "tertiary-fixed-dim": "#ffb95f",
+                        "surface-variant": "#343536",
+                        "on-tertiary-container": "#513100"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {
+                        "grid-unit": "16px",
+                        "margin-xs": "4px",
+                        "margin-sm": "8px",
+                        "container-padding": "12px",
+                        "margin-md": "16px",
+                        "gutter": "1px"
+                    },
+                    "fontFamily": {
+                        "data-sm": ["IBM Plex Mono", "monospace"],
+                        "body-md": ["IBM Plex Sans", "sans-serif"],
+                        "data-md": ["IBM Plex Mono", "monospace"],
+                        "data-lg": ["IBM Plex Mono", "monospace"],
+                        "headline-md": ["Bahnschrift", "Segoe UI Variable", "Segoe UI", "sans-serif"],
+                        "label-sm-caps": ["Bahnschrift", "Segoe UI Variable", "Segoe UI", "sans-serif"],
+                        "headline-lg": ["Bahnschrift", "Segoe UI Variable", "Segoe UI", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "data-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "data-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "data-lg": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.02em", "fontWeight": "500" }],
+                        "headline-md": ["18px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "600" }],
+                        "label-sm-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.08em", "fontWeight": "700" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-body-md antialiased selection:bg-primary/30">
+
+<!-- Header: TopAppBar -->
+<header class="bg-background border-b border-outline-variant flex justify-between items-center w-full px-grid-unit h-16 sticky top-0 z-50">
+    <div class="flex items-center gap-4">
+        <!-- Sidebar Collapsible Toggle Button -->
+        <button id="sidebarToggleBtn" onclick="toggleSidebar()" class="p-1.5 text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors flex items-center justify-center border border-outline-variant/60" title="Toggle Sidebar">
+            <span class="material-symbols-outlined text-[20px]">menu</span>
+        </button>
+        
+        <!-- Renamed Tool Title -->
+        <h1 class="font-display text-headline-lg font-bold tracking-tighter text-primary flex items-center gap-2">
+            Frame Distill
+            <span class="font-data-sm text-[11px] font-normal px-1.5 py-0.5 border border-outline-variant text-outline bg-surface-container-high tracking-normal">v1.0</span>
+        </h1>
+        
+        <!-- Clean Top Nav Labels with Tab Switching -->
+        <nav class="hidden md:flex gap-1 items-center h-full ml-4">
+            <button id="navTabLiveFeed" onclick="switchTab('live-feed', this)" class="nav-tab font-label-sm-caps text-label-sm-caps text-on-surface-variant hover:bg-surface-container px-3 py-1.5 transition-colors duration-100 ease-in-out h-full flex items-center">
+                Live Feed
+            </button>
+            <button id="navTabMetrics" onclick="switchTab('metrics', this)" class="nav-tab active font-label-sm-caps text-label-sm-caps text-primary border-b-2 border-primary bg-surface-container px-3 py-1.5 transition-colors duration-100 ease-in-out h-full flex items-center">
+                Metrics
+            </button>
+            <button id="navTabLogArchive" onclick="switchTab('log-archive', this)" class="nav-tab font-label-sm-caps text-label-sm-caps text-on-surface-variant hover:bg-surface-container px-3 py-1.5 transition-colors duration-100 ease-in-out h-full flex items-center">
+                Log Archive
+            </button>
+            <button id="navTabSystemCfg" onclick="switchTab('system-cfg', this)" class="nav-tab font-label-sm-caps text-label-sm-caps text-on-surface-variant hover:bg-surface-container px-3 py-1.5 transition-colors duration-100 ease-in-out h-full flex items-center">
+                System Config
+            </button>
+        </nav>
+    </div>
+    
+    <div class="flex items-center gap-4">
+        <!-- Clean Status Badge -->
+        <div class="flex items-center gap-2 border border-secondary px-2.5 py-1 bg-secondary/10">
+            <span class="material-symbols-outlined text-[14px] text-secondary pulse-indicator">check_circle</span>
+            <span class="font-data-sm text-data-sm text-secondary tracking-wider font-semibold">System Ready</span>
+        </div>
+        
+        <!-- Search Bar Area -->
+        <div class="hidden md:flex items-center border border-outline-variant px-2.5 h-8 w-48 bg-surface-container-lowest">
+            <span class="material-symbols-outlined text-[16px] text-on-surface-variant mr-2">search</span>
+            <input id="tableSearchInput" class="bg-transparent border-none p-0 text-data-sm font-data-sm text-on-surface focus:outline-none focus:ring-0 w-full placeholder-on-surface-variant" placeholder="Search..." type="text"/>
+        </div>
+        
+        <!-- Trailing Icons -->
+        <div class="flex items-center gap-2 text-primary">
+            <button class="p-1 hover:bg-surface-container transition-colors" title="Settings"><span class="material-symbols-outlined text-[20px]">settings</span></button>
+            <button class="p-1 hover:bg-surface-container transition-colors" title="Terminal Readout" onclick="switchTab('live-feed', document.getElementById('navTabLiveFeed'))"><span class="material-symbols-outlined text-[20px]">terminal</span></button>
+            <button class="p-1 hover:bg-surface-container transition-colors" title="User Profile"><span class="material-symbols-outlined text-[20px]">account_circle</span></button>
+        </div>
+    </div>
+</header>
+
+<div class="flex flex-1 overflow-hidden">
+    <!-- Collapsible Side Navigation -->
+    <aside id="appSidebar" class="flex flex-col h-full bg-surface-container-lowest border-r border-outline-variant py-grid-unit z-40 shrink-0 overflow-y-auto">
+        <div class="px-4 mb-6">
+            <h2 class="font-headline-md text-headline-md text-primary mb-1">NODE_01_ANALYSIS</h2>
+            <p class="font-data-sm text-data-sm text-on-surface-variant flex items-center gap-1.5">
+                <span class="inline-block w-2 h-2 bg-secondary"></span> CV_ENGINE_ACTIVE
+            </p>
+        </div>
+        <nav class="flex-1 flex flex-col gap-1 px-2">
+            <a class="flex items-center gap-3 px-3 py-2 text-outline hover:text-on-surface hover:bg-surface-container transition-all duration-75" href="#frame-buffer" onclick="setFilter('ALL')">
+                <span class="material-symbols-outlined text-[18px]">biotech</span>
+                <span class="font-label-sm-caps text-label-sm-caps">FRAME_SCAN</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-outline hover:text-on-surface hover:bg-surface-container transition-all duration-75" href="#frame-buffer" onclick="setFilter('DISCARDED')">
+                <span class="material-symbols-outlined text-[18px]">grain</span>
+                <span class="font-label-sm-caps text-label-sm-caps">BLOB_DETECT</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-outline hover:text-on-surface hover:bg-surface-container transition-all duration-75" href="#" onclick="switchTab('live-feed', document.getElementById('navTabLiveFeed'))">
+                <span class="material-symbols-outlined text-[18px]">view_in_ar_new</span>
+                <span class="font-label-sm-caps text-label-sm-caps">MOTION_VEC</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-secondary bg-surface-container-high border-l-2 border-secondary transition-all duration-75" href="#" onclick="switchTab('metrics', document.getElementById('navTabMetrics'))">
+                <span class="material-symbols-outlined text-[18px]">layers</span>
+                <span class="font-label-sm-caps text-label-sm-caps">DEPTH_MAP</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-outline hover:text-on-surface hover:bg-surface-container transition-all duration-75" href="#" onclick="switchTab('metrics', document.getElementById('navTabMetrics'))">
+                <span class="material-symbols-outlined text-[18px]">query_stats</span>
+                <span class="font-label-sm-caps text-label-sm-caps">IO_STATS</span>
+            </a>
+        </nav>
+        <div class="px-2 mt-auto border-t border-outline-variant pt-4 flex flex-col gap-1">
+            <a class="flex items-center gap-3 px-3 py-2 text-outline hover:text-on-surface hover:bg-surface-container transition-all duration-75" href="#">
+                <span class="material-symbols-outlined text-[18px]">help</span>
+                <span class="font-label-sm-caps text-label-sm-caps">HELP</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2 text-outline hover:text-on-surface hover:bg-surface-container transition-all duration-75" href="#">
+                <span class="material-symbols-outlined text-[18px]">logout</span>
+                <span class="font-label-sm-caps text-label-sm-caps">LOG_OUT</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Workspace Area with Multi-Tab Panels -->
+    <main class="flex-1 flex flex-col overflow-y-auto p-4 lg:p-6 gap-6 relative">
+        
+        <!-- ==========================================
+             TAB 1: METRICS (Default Active View)
+             ========================================== -->
+        <div id="tab-content-metrics" class="tab-pane flex flex-col gap-6">
+            <!-- Hero Telemetry Array -->
+            <section id="hero-telemetry" class="glass-panel border border-outline-variant bg-surface-container-lowest/80 backdrop-blur-sm">
+                <div class="border-b border-outline-variant px-4 py-2 bg-surface-container-low/50 flex justify-between items-center">
+                    <h2 class="font-label-sm-caps text-label-sm-caps text-primary tracking-widest">TELEMETRY_ARRAY :: SESSION_ID_9904A</h2>
+                    <span class="font-data-sm text-data-sm text-outline">{{ generated_timestamp }}</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-outline-variant/50">
+                    <!-- Storage Saved (Hero Metric) -->
+                    <div class="p-6 flex flex-col justify-center items-start relative overflow-hidden group">
+                        <div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <span class="font-label-sm-caps text-label-sm-caps text-on-surface-variant mb-2 z-10">STG_SAVED_PCT</span>
+                        <div class="flex items-baseline gap-2 z-10">
+                            <span class="font-data-lg text-[48px] leading-[48px] text-secondary">{{ "%.1f"|format(stats.storage_saved_percent) }}%</span>
+                            <span class="material-symbols-outlined text-secondary">trending_up</span>
+                        </div>
+                        <div class="w-full h-1 bg-surface-variant mt-4 z-10">
+                            <div class="h-full bg-secondary" style="width: {{ stats.storage_saved_percent }}%;"></div>
+                        </div>
+                        <span class="font-data-sm text-data-sm text-outline mt-2 z-10">{{ "%.1f"|format(stats.original_folder_size_mb) }} MB &rarr; {{ "%.1f"|format(stats.output_folder_size_mb) }} MB</span>
+                    </div>
+
+                    <!-- Total Frames -->
+                    <div class="p-6 flex flex-col justify-center items-start">
+                        <span class="font-label-sm-caps text-label-sm-caps text-on-surface-variant mb-2">TOT_FRAMES_SCANNED</span>
+                        <span class="font-data-lg text-[32px] leading-[32px] text-primary">{{ "{:,}".format(stats.total_frames_scanned) }}</span>
+                        <div class="mt-4 flex gap-2 w-full">
+                            <div class="flex-1 border border-outline-variant p-2 flex justify-between items-center bg-surface">
+                                <span class="font-data-sm text-data-sm text-outline">KEPT</span>
+                                <span class="font-data-sm text-data-sm text-secondary">{{ "{:,}".format(stats.frames_kept) }}</span>
+                            </div>
+                            <div class="flex-1 border border-outline-variant p-2 flex justify-between items-center bg-surface">
+                                <span class="font-data-sm text-data-sm text-outline">DISCARD</span>
+                                <span class="font-data-sm text-data-sm text-error">{{ "{:,}".format(stats.frames_discarded) }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Processing Time -->
+                    <div class="p-6 flex flex-col justify-center items-start">
+                        <span class="font-label-sm-caps text-label-sm-caps text-on-surface-variant mb-2">PROC_TIME_SECONDS</span>
+                        {% set total_sec = stats.processing_time_seconds %}
+                        {% set minutes = (total_sec // 60) | int %}
+                        {% set seconds = (total_sec % 60) %}
+                        <span class="font-data-lg text-[32px] leading-[32px] text-primary">{{ "%02d:%05.2f"|format(minutes, seconds) }}</span>
+                        <div class="mt-4 w-full flex items-center gap-2">
+                            <span class="font-data-sm text-data-sm text-outline w-16">THRUPUT</span>
+                            <div class="flex-1 h-4 flex gap-[1px] items-end">
+                                <!-- Simulated sparkline -->
+                                <div class="w-1/12 h-[40%] bg-primary"></div>
+                                <div class="w-1/12 h-[60%] bg-primary"></div>
+                                <div class="w-1/12 h-[80%] bg-primary"></div>
+                                <div class="w-1/12 h-[90%] bg-primary"></div>
+                                <div class="w-1/12 h-[100%] bg-secondary"></div>
+                                <div class="w-1/12 h-[85%] bg-primary"></div>
+                                <div class="w-1/12 h-[70%] bg-primary"></div>
+                                <div class="w-1/12 h-[95%] bg-secondary"></div>
+                                <div class="w-1/12 h-[60%] bg-primary"></div>
+                                <div class="w-1/12 h-[50%] bg-primary"></div>
+                                <div class="w-1/12 h-[75%] bg-primary"></div>
+                                <div class="w-1/12 h-[80%] bg-primary"></div>
+                            </div>
+                            <span class="font-data-sm text-data-sm text-primary w-12 text-right">
+                                {{ "%.0f"|format(stats.total_frames_scanned / stats.processing_time_seconds) if stats.processing_time_seconds > 0 else 0 }}fps
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Controls Panel -->
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-surface-container-lowest border border-outline-variant p-2">
+                <div class="flex items-center gap-4">
+                    <span class="font-label-sm-caps text-label-sm-caps text-outline ml-2">FILTER_SELECT:</span>
+                    <div class="flex border border-outline-variant">
+                        <button class="filter-btn px-4 py-1.5 font-label-sm-caps text-label-sm-caps bg-primary text-on-primary transition-colors" onclick="setFilter('ALL', this)">ALL</button>
+                        <button class="filter-btn px-4 py-1.5 font-label-sm-caps text-label-sm-caps text-on-surface-variant hover:bg-surface-container border-l border-outline-variant transition-colors" onclick="setFilter('KEPT', this)">KEPT</button>
+                        <button class="filter-btn px-4 py-1.5 font-label-sm-caps text-label-sm-caps text-on-surface-variant hover:bg-surface-container border-l border-outline-variant transition-colors" onclick="setFilter('DISCARDED', this)">DISCARDED</button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="font-label-sm-caps text-label-sm-caps text-outline">SORT_ORDER:</span>
+                    <div class="flex border border-outline-variant">
+                        <button class="px-3 py-1 flex items-center gap-1 text-on-surface-variant hover:bg-surface-container transition-colors" onclick="sortBy('time')">
+                            <span class="font-label-sm-caps text-label-sm-caps">TIME</span>
+                            <span id="sortIcon-time" class="material-symbols-outlined text-[14px]">arrow_downward</span>
+                        </button>
+                        <button class="px-3 py-1 border-l border-outline-variant flex items-center gap-1 text-primary bg-surface-container-high transition-colors" onclick="sortBy('score')">
+                            <span class="font-label-sm-caps text-label-sm-caps">SCORE</span>
+                            <span id="sortIcon-score" class="material-symbols-outlined text-[14px]">arrow_upward</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content: Frame Buffer Table -->
+            <section id="frame-buffer" class="glass-panel border border-outline-variant bg-surface-container-lowest/90 flex-1 min-h-[400px] flex flex-col">
+                <div class="border-b border-outline-variant px-4 py-2 bg-surface-container-low/80 flex justify-between items-center">
+                    <h2 class="font-label-sm-caps text-label-sm-caps text-primary tracking-widest">FRAME_BUFFER_VIEW</h2>
+                    <span class="font-data-sm text-data-sm text-outline">COUNT: {{ frames | length }} ENTRIES</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-outline-variant bg-surface-container-highest/20">
+                                <th class="px-4 py-2 font-label-sm-caps text-label-sm-caps text-on-surface-variant font-normal w-12 border-r border-outline-variant/30 text-center">#</th>
+                                <th class="px-4 py-2 font-label-sm-caps text-label-sm-caps text-on-surface-variant font-normal w-1/4 border-r border-outline-variant/30">FILE_REF</th>
+                                <th class="px-4 py-2 font-label-sm-caps text-label-sm-caps text-on-surface-variant font-normal w-32 border-r border-outline-variant/30">TIMESTAMP</th>
+                                <th class="px-4 py-2 font-label-sm-caps text-label-sm-caps text-on-surface-variant font-normal border-r border-outline-variant/30">LAPLACIAN_VAR</th>
+                                <th class="px-4 py-2 font-label-sm-caps text-label-sm-caps text-on-surface-variant font-normal w-24 border-r border-outline-variant/30">SSIM_IDX</th>
+                                <th class="px-4 py-2 font-label-sm-caps text-label-sm-caps text-on-surface-variant font-normal w-24 text-center">STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="frameTableBody" class="font-data-md text-data-md text-on-surface">
+                            {% for frame in frames %}
+                            {% set lap_pct = [[(frame.laplacian_score / 150 * 100)|round|int, 5]|max, 100]|min %}
+                            {% set is_duplicate = (frame.ssim_score is defined and frame.ssim_score > 0.90) or (not frame.is_kept and frame.laplacian_score >= 80) %}
+                            <tr class="border-b border-outline-variant hover:bg-surface-container/50 transition-colors cursor-pointer {% if not frame.is_kept %}{% if is_duplicate %}bg-tertiary-container/10 row-duplicate{% else %}bg-error/5 row-discarded{% endif %}{% endif %}"
+                                data-status="{{ 'KEPT' if frame.is_kept else 'DISCARDED' }}"
+                                data-filename="{{ frame.frame_filename }}"
+                                data-timestamp="{{ '%.2f'|format(frame.timestamp_sec) }}s"
+                                data-timestamp-sec="{{ frame.timestamp_sec }}"
+                                data-laplacian="{{ frame.laplacian_score }}"
+                                data-ssim="{{ frame.ssim_score }}"
+                                onclick="openModal('{{ frame.frame_filename }}', '{{ frame.timestamp_sec }}', '{{ frame.laplacian_score }}', '{{ frame.ssim_score }}', {{ 'true' if frame.is_kept else 'false' }})"
+                                tabindex="0"
+                                onkeydown="if(event.key==='Enter'){openModal('{{ frame.frame_filename }}', '{{ frame.timestamp_sec }}', '{{ frame.laplacian_score }}', '{{ frame.ssim_score }}', {{ 'true' if frame.is_kept else 'false' }})}">
+                                
+                                <td class="px-4 py-3 border-r border-outline-variant/30 text-outline text-center text-[12px]">
+                                    {{ "%03d"|format(frame.id) }}
+                                </td>
+                                <td class="px-4 py-3 border-r border-outline-variant/30 {% if not frame.is_kept %}text-outline{% endif %} font-mono flex items-center gap-2">
+                                    <span class="material-symbols-outlined text-[16px] text-outline">image</span>
+                                    <span>{{ frame.frame_filename }}</span>
+                                </td>
+                                <td class="px-4 py-3 border-r border-outline-variant/30 {% if frame.is_kept %}text-primary-container{% else %}text-outline{% endif %}">
+                                    {% set m = (frame.timestamp_sec // 60)|int %}
+                                    {% set s = (frame.timestamp_sec % 60) %}
+                                    00:{{ "%02d:%05.2f"|format(m, s) }}
+                                </td>
+                                <td class="px-4 py-3 border-r border-outline-variant/30 {% if not frame.is_kept and not is_duplicate %}opacity-70{% endif %}">
+                                    <div class="flex items-center gap-3">
+                                        <span class="w-12 text-right {% if not frame.is_kept and not is_duplicate %}text-error{% endif %}">{{ "%.1f"|format(frame.laplacian_score) }}</span>
+                                        <div class="flex-1 h-1.5 bg-surface-variant relative">
+                                            <div class="absolute left-0 top-0 h-full {% if frame.is_kept %}bg-secondary{% elif is_duplicate %}bg-tertiary{% else %}bg-error{% endif %}" style="width: {{ lap_pct }}%;"></div>
+                                            <div class="absolute left-[30%] top-[-2px] bottom-[-2px] w-[1px] bg-outline-variant z-10" title="Threshold: 30%"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 border-r border-outline-variant/30 text-right {% if not frame.is_kept %}{% if is_duplicate %}text-tertiary{% else %}text-outline{% endif %}{% endif %}">
+                                    {{ "%.2f"|format(frame.ssim_score) }}
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    {% if frame.is_kept %}
+                                    <span class="inline-block border border-secondary text-secondary px-1 py-0.5 bg-secondary/10" title="Status: KEPT">
+                                        <span class="material-symbols-outlined text-[14px] block">check</span>
+                                    </span>
+                                    {% elif is_duplicate %}
+                                    <span class="inline-block border border-tertiary text-tertiary px-1 py-0.5 bg-tertiary/10" title="Status: DUPLICATE (DISCARDED)">
+                                        <span class="material-symbols-outlined text-[14px] block">block</span>
+                                    </span>
+                                    {% else %}
+                                    <span class="inline-block border border-error text-error px-1 py-0.5 bg-error/10" title="Status: BLURRY (DISCARDED)">
+                                        <span class="material-symbols-outlined text-[14px] block">close</span>
+                                    </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- ==========================================
+             TAB 2: LIVE FEED (Simulated Real-Time Stream)
+             ========================================== -->
+        <div id="tab-content-live-feed" class="tab-pane hidden flex flex-col gap-6">
+            <!-- Feed Control & Status Header -->
+            <section class="border border-outline-variant bg-surface-container-lowest p-4">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="inline-block w-2.5 h-2.5 bg-secondary pulse-indicator"></span>
+                            <h2 class="font-headline-md text-headline-md text-primary tracking-wide">LIVE_STREAM_MONITOR // CV_NODE_01</h2>
+                        </div>
+                        <p class="font-data-sm text-data-sm text-outline mt-1">Real-time frame extraction &amp; dual-stage inference pipeline</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <div class="border border-outline-variant px-3 py-1 bg-surface flex items-center gap-2">
+                            <span class="font-data-sm text-outline">INGEST_RATE:</span>
+                            <span class="font-data-sm text-secondary font-semibold">58 FPS</span>
+                        </div>
+                        <div class="border border-outline-variant px-3 py-1 bg-surface flex items-center gap-2">
+                            <span class="font-data-sm text-outline">LATENCY:</span>
+                            <span class="font-data-sm text-primary font-semibold">18.4ms</span>
+                        </div>
+                        <div class="border border-outline-variant px-3 py-1 bg-surface flex items-center gap-2">
+                            <span class="font-data-sm text-outline">STATE:</span>
+                            <span class="font-data-sm text-secondary font-semibold">COMPLETE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Animated Progress Bar -->
+                <div class="mt-4 pt-3 border-t border-outline-variant/60">
+                    <div class="flex justify-between items-center mb-1.5">
+                        <span class="font-label-sm-caps text-label-sm-caps text-on-surface-variant">BATCH_INGEST_PROGRESS</span>
+                        <span class="font-data-sm text-data-sm text-secondary">100% ({{ stats.total_frames_scanned }} / {{ stats.total_frames_scanned }} FRAMES PROCESSED)</span>
+                    </div>
+                    <div class="w-full h-2 bg-surface-variant relative overflow-hidden">
+                        <div class="h-full bg-secondary transition-all duration-500" style="width: 100%;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Terminal Log Stream & Live Visualizer Split -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Log Stream Terminal Area (2 cols) -->
+                <div class="lg:col-span-2 border border-outline-variant bg-surface-container-lowest flex flex-col">
+                    <div class="border-b border-outline-variant px-4 py-2 bg-surface-container-low/70 flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-primary">terminal</span>
+                            <h3 class="font-label-sm-caps text-label-sm-caps text-primary tracking-wider">PIPELINE_EXECUTION_STREAM // STDOUT</h3>
+                        </div>
+                        <span class="font-data-sm text-data-sm text-outline">FILTER: VERBOSE</span>
+                    </div>
+                    
+                    <div class="terminal-stream p-4 overflow-y-auto max-h-[500px] flex flex-col gap-1 text-[12px]">
+                        <div class="text-outline pb-1 border-b border-outline-variant/30">
+                            [00:00:00.00] [SYSTEM] Initializing Frame-Distill engine core v1.0...
+                        </div>
+                        <div class="text-outline pb-1 border-b border-outline-variant/30">
+                            [00:00:00.02] [INGEST] Source video stream mapped: {{ stats.total_frames_scanned }} total frames detected.
+                        </div>
+                        <div class="text-outline pb-1 border-b border-outline-variant/30">
+                            [00:00:00.05] [CONFIG] Laplacian Threshold: 50.0 | SSIM Max Similarity: 0.90
+                        </div>
+
+                        <!-- Generated Log Stream from Frames Data -->
+                        {% for frame in frames %}
+                        {% set m = (frame.timestamp_sec // 60)|int %}
+                        {% set s = (frame.timestamp_sec % 60) %}
+                        {% set ts_formatted = "00:%02d:%05.2f"|format(m, s) %}
+                        {% set is_duplicate = (frame.ssim_score is defined and frame.ssim_score > 0.90) or (not frame.is_kept and frame.laplacian_score >= 80) %}
+
+                        <div class="flex items-start gap-2 py-0.5 border-b border-outline-variant/20 hover:bg-surface-container/30 transition-colors">
+                            <span class="text-outline whitespace-nowrap">[{{ ts_formatted }}]</span>
+                            <div class="flex-1">
+                                <span class="text-primary-container">[INGEST]</span> Extracted <span class="text-on-surface font-semibold">{{ frame.frame_filename }}</span> (ID #{{ "%03d"|format(frame.id) }})
+                                <br/>
+                                <span class="text-outline">↳ LAP:</span> <span class="{% if frame.laplacian_score >= 80 %}text-secondary{% elif frame.laplacian_score >= 50 %}text-tertiary{% else %}text-error{% endif %} font-semibold">{{ "%.1f"|format(frame.laplacian_score) }}</span>
+                                <span class="text-outline">&bull; SSIM:</span> <span class="{% if is_duplicate %}text-tertiary{% else %}text-secondary{% endif %} font-semibold">{{ "%.2f"|format(frame.ssim_score) }}</span>
+                                &rarr;
+                                {% if frame.is_kept %}
+                                <span class="text-secondary font-semibold">[PASS: KEPT KEYFRAME]</span>
+                                {% elif is_duplicate %}
+                                <span class="text-tertiary font-semibold">[DROP: DUPLICATE STRUCTURE]</span>
+                                {% else %}
+                                <span class="text-error font-semibold">[DROP: BLURRY DEFICIT]</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        <div class="text-secondary pt-2 font-semibold">
+                            [00:{{ "%02d:%05.2f"|format((stats.processing_time_seconds // 60)|int, stats.processing_time_seconds % 60) }}] [COMPLETE] Processed {{ stats.total_frames_scanned }} frames in {{ "%.2f"|format(stats.processing_time_seconds) }}s &bull; Kept: {{ stats.frames_kept }} &bull; Discarded: {{ stats.frames_discarded }} &bull; Storage Saved: {{ "%.1f"|format(stats.storage_saved_percent) }}%
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visualizer & Scope Gauges (1 col) -->
+                <div class="border border-outline-variant bg-surface-container-lowest flex flex-col">
+                    <div class="border-b border-outline-variant px-4 py-2 bg-surface-container-low/70 flex justify-between items-center">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-[16px] text-primary">visibility</span>
+                            <h3 class="font-label-sm-caps text-label-sm-caps text-primary tracking-wider">FRAME_STREAM_VIEW</h3>
+                        </div>
+                        <span class="font-data-sm text-data-sm text-secondary">ACTIVE</span>
+                    </div>
+
+                    <div class="p-4 flex flex-col gap-4 flex-1">
+                        <!-- Frame Display Screen with Reticle -->
+                        <div class="relative aspect-video bg-black border border-outline-variant overflow-hidden flex items-center justify-center group">
+                            {% set first_frame = frames[0] if frames else None %}
+                            <img id="liveFeedPreviewImg" src="{% if first_frame %}../dev_mock/sample_frames/{{ first_frame.frame_filename }}{% endif %}" alt="Live stream preview" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='https://placehold.co/400x300/131315/4edea3?text=STREAM_MONITOR';"/>
+                            
+                            <!-- Reticle Target Lines -->
+                            <div class="absolute inset-0 pointer-events-none border border-secondary/20 m-3 flex flex-col justify-between">
+                                <div class="flex justify-between p-1 font-data-sm text-[10px] text-secondary/70">
+                                    <span>REC ●</span>
+                                    <span>1080p60</span>
+                                </div>
+                                <div class="flex justify-center items-center">
+                                    <span class="text-secondary/40 text-[18px]">+</span>
+                                </div>
+                                <div class="flex justify-between p-1 font-data-sm text-[10px] text-secondary/70">
+                                    <span>{% if first_frame %}{{ first_frame.frame_filename }}{% else %}FRAME_FEED{% endif %}</span>
+                                    <span>RAW_RGB</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Live Metrics Breakdown -->
+                        <div class="flex flex-col gap-2 font-data-sm text-data-sm">
+                            <div class="border border-outline-variant p-2.5 bg-surface flex justify-between items-center">
+                                <span class="text-outline">PRIMARY_FILTER</span>
+                                <span class="text-primary font-semibold">LAPLACIAN VAR</span>
+                            </div>
+                            <div class="border border-outline-variant p-2.5 bg-surface flex justify-between items-center">
+                                <span class="text-outline">DEDUP_ALGORITHM</span>
+                                <span class="text-primary font-semibold">SSIM STRUCTURAL</span>
+                            </div>
+                            <div class="border border-outline-variant p-2.5 bg-surface flex justify-between items-center">
+                                <span class="text-outline">STORAGE_EFFICIENCY</span>
+                                <span class="text-secondary font-bold">{{ "%.1f"|format(stats.storage_saved_percent) }}% SAVED</span>
+                            </div>
+                        </div>
+
+                        <button onclick="switchTab('metrics', document.getElementById('navTabMetrics'))" class="mt-auto w-full py-2.5 border border-primary text-primary hover:bg-primary hover:text-on-primary font-label-sm-caps text-label-sm-caps transition-colors">
+                            VIEW FULL METRICS &amp; TABLES &rarr;
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             TAB 3: LOG ARCHIVE (Placeholder)
+             ========================================== -->
+        <div id="tab-content-log-archive" class="tab-pane hidden flex flex-col gap-6">
+            <section class="border border-outline-variant bg-surface-container-lowest p-8 flex flex-col items-center justify-center text-center min-h-[400px]">
+                <span class="material-symbols-outlined text-[48px] text-outline mb-3">folder_zip</span>
+                <h2 class="font-headline-md text-headline-md text-primary mb-2">LOG_ARCHIVE_STORAGE</h2>
+                <p class="font-body-md text-on-surface-variant max-w-md mb-6">
+                    Historical log archives and sqlite trace dumps are managed directly by upstream backend modules. Not available in this isolated summary report.
+                </p>
+                <button onclick="switchTab('metrics', document.getElementById('navTabMetrics'))" class="border border-outline-variant hover:border-primary text-primary px-4 py-2 font-label-sm-caps text-label-sm-caps transition-colors">
+                    RETURN TO METRICS
+                </button>
+            </section>
+        </div>
+
+        <!-- ==========================================
+             TAB 4: SYSTEM CONFIG (Placeholder)
+             ========================================== -->
+        <div id="tab-content-system-cfg" class="tab-pane hidden flex flex-col gap-6">
+            <section class="border border-outline-variant bg-surface-container-lowest p-8 flex flex-col items-center justify-center text-center min-h-[400px]">
+                <span class="material-symbols-outlined text-[48px] text-outline mb-3">tune</span>
+                <h2 class="font-headline-md text-headline-md text-primary mb-2">SYSTEM_CONFIG_PANEL</h2>
+                <p class="font-body-md text-on-surface-variant max-w-md mb-6">
+                    Pipeline runtime parameters (Laplacian threshold: 50.0, SSIM threshold: 0.90, storage targets) are read-only in this presentation mode.
+                </p>
+                <button onclick="switchTab('metrics', document.getElementById('navTabMetrics'))" class="border border-outline-variant hover:border-primary text-primary px-4 py-2 font-label-sm-caps text-label-sm-caps transition-colors">
+                    RETURN TO METRICS
+                </button>
+            </section>
+        </div>
+
+    </main>
+</div>
+
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant flex justify-between items-center px-grid-unit py-margin-sm w-full z-50">
+    <div class="font-data-sm text-data-sm text-outline">FRAME_DISTILL_TELEMETRY // ENGINE_v1.0 &bull; BUILD_2026.08</div>
+    <div class="flex gap-4">
+        <a class="font-label-sm-caps text-label-sm-caps text-outline hover:text-on-surface transition-colors" href="#">PRIVACY_PROTOCOL</a>
+        <a class="font-label-sm-caps text-label-sm-caps text-outline hover:text-on-surface transition-colors" href="#">ENCRYPTION_STDS</a>
+        <a class="font-label-sm-caps text-label-sm-caps text-outline hover:text-on-surface transition-colors" href="#">API_DOCS</a>
+    </div>
+</footer>
+
+<!-- Lightbox Modal for Frame Inspection -->
+<div id="modalOverlay" class="modal-overlay" onclick="closeModal(event)">
+    <div class="bg-surface border border-outline-variant max-w-3xl w-full flex flex-col shadow-2xl" onclick="event.stopPropagation()">
+        <div class="border-b border-outline-variant px-4 py-3 bg-surface-container-low flex justify-between items-center">
+            <h3 id="modalTitle" class="font-label-sm-caps text-label-sm-caps text-primary tracking-wider">FRAME_INSPECTION</h3>
+            <button class="text-outline hover:text-primary transition-colors text-xl leading-none" onclick="closeModal(null, true)">&times;</button>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3">
+            <div class="md:col-span-2 bg-black flex items-center justify-center p-2 min-h-[300px]">
+                <img id="modalImg" src="" alt="Frame preview" class="max-h-[400px] w-full object-contain">
+            </div>
+            <div class="p-4 flex flex-col gap-3 bg-surface-container-lowest border-t md:border-t-0 md:border-l border-outline-variant">
+                <div class="border-b border-outline-variant/50 pb-2">
+                    <span class="font-label-sm-caps text-label-sm-caps text-outline block mb-1">TIMESTAMP</span>
+                    <span id="modalTime" class="font-data-md text-on-surface">-</span>
+                </div>
+                <div class="border-b border-outline-variant/50 pb-2">
+                    <span class="font-label-sm-caps text-label-sm-caps text-outline block mb-1">LAPLACIAN_VAR</span>
+                    <span id="modalLaplacian" class="font-data-md text-primary">-</span>
+                </div>
+                <div class="border-b border-outline-variant/50 pb-2">
+                    <span class="font-label-sm-caps text-label-sm-caps text-outline block mb-1">SSIM_SIMILARITY</span>
+                    <span id="modalSSIM" class="font-data-md text-secondary">-</span>
+                </div>
+                <div>
+                    <span class="font-label-sm-caps text-label-sm-caps text-outline block mb-1">DECISION_STATUS</span>
+                    <span id="modalStatus" class="font-data-md">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="static/script.js"></script>
+</body>
+</html>

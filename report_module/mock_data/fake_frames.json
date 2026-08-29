@@ -1,0 +1,37 @@
+{
+  "overall_stats": {
+    "total_frames_processed": 1420,
+    "frames_kept": 19,
+    "frames_discarded": 1401,
+    "original_size_mb": 425.6,
+    "final_size_mb": 5.4,
+    "storage_saved_percent": 98.7,
+    "processing_time_seconds": 34.2
+  },
+  "frames": [
+    {"frame": "frame_001.jpg", "blur_score": 110.5, "is_duplicate": false},
+    {"frame": "frame_002.jpg", "blur_score": 145.2, "is_duplicate": false},
+    {"frame": "frame_003.jpg", "blur_score": 132.8, "is_duplicate": true},
+    {"frame": "frame_004.jpg", "blur_score": 98.1, "is_duplicate": false},
+    {"frame": "frame_005.jpg", "blur_score": 42.6, "is_duplicate": false},
+    {"frame": "frame_006.jpg", "blur_score": 121.4, "is_duplicate": false},
+    {"frame": "frame_007.jpg", "blur_score": 88.9, "is_duplicate": true},
+    {"frame": "frame_008.jpg", "blur_score": 105.7, "is_duplicate": false},
+    {"frame": "frame_009.jpg", "blur_score": 76.2, "is_duplicate": false},
+    {"frame": "frame_010.jpg", "blur_score": 148.0, "is_duplicate": false},
+    {"frame": "frame_011.jpg", "blur_score": 134.5, "is_duplicate": true},
+    {"frame": "frame_012.jpg", "blur_score": 112.3, "is_duplicate": false},
+    {"frame": "frame_013.jpg", "blur_score": 95.8, "is_duplicate": false},
+    {"frame": "frame_014.jpg", "blur_score": 67.1, "is_duplicate": false},
+    {"frame": "frame_015.jpg", "blur_score": 129.9, "is_duplicate": false},
+    {"frame": "frame_016.jpg", "blur_score": 140.2, "is_duplicate": true},
+    {"frame": "frame_017.jpg", "blur_score": 82.4, "is_duplicate": false},
+    {"frame": "frame_018.jpg", "blur_score": 118.6, "is_duplicate": false},
+    {"frame": "frame_019.jpg", "blur_score": 102.1, "is_duplicate": false},
+    {"frame": "frame_020.jpg", "blur_score": 25.3, "is_duplicate": false},
+    {"frame": "frame_021.jpg", "blur_score": 137.8, "is_duplicate": true},
+    {"frame": "frame_022.jpg", "blur_score": 91.5, "is_duplicate": false},
+    {"frame": "frame_023.jpg", "blur_score": 125.0, "is_duplicate": false},
+    {"frame": "frame_024.jpg", "blur_score": 109.7, "is_duplicate": false}
+  ]
+}

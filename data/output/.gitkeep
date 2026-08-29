@@ -1,2 +1,1 @@
-# This directory holds extracted and filtered output frames.
-# DO NOT commit any generated images — kept intentionally empty.
+# Keep this directory — generated summary_report.html lands here at runtime.

@@ -1,50 +1,34 @@
-# ── Python ─────────────────────────────────────────────────────────────────
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-*.pyo
-*.pyd
-.Python
 
-# ── Virtual environments ────────────────────────────────────────────────────
-venv/
-.venv/
-env/
-ENV/
-
-# ── Distribution / packaging ────────────────────────────────────────────────
-build/
-dist/
-*.egg-info/
-*.egg
-.eggs/
-MANIFEST
-
-# ── Testing & coverage ──────────────────────────────────────────────────────
-.pytest_cache/
-.coverage
-htmlcov/
-*.xml
-
-# ── Type-checking & linters ─────────────────────────────────────────────────
-.mypy_cache/
-.ruff_cache/
-
-# ── IDE & OS artefacts ──────────────────────────────────────────────────────
-.vscode/
-.idea/
-*.swp
-*.swo
-.DS_Store
-Thumbs.db
-
-# ── Frame-Distill data directories ──────────────────────────────────────────
-# Keep the folder structure but never commit actual media or generated files
-data/raw_videos/*
-data/output/*
-!data/raw_videos/.gitkeep
+# Report Output
+output/*.html
+report_module/output/*.html
+report_module/output/*
+!report_module/output/.gitkeep
+data/output/*.html
+data/output/static/
 !data/output/.gitkeep
 
-# ── Runtime artefacts ───────────────────────────────────────────────────────
-*.db          # SQLite databases generated during runs
-*.log
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Environments
+.env
+.venv
+venv/
+ENV/
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local Dev Scratch Scripts
+check_status.py
+verify_report.py
