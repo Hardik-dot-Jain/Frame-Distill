@@ -59,6 +59,12 @@ def process_video(video_path: str, output_dir: str, blur_threshold: float = 100.
                 # Run classification when buffer is full
                 if len(frame_buffer) == 16:
                     current_event_label, current_confidence = classifier.detect_key_event(list(frame_buffer))
+                    
+                    # 4. Overlapping Temporal Windows (Stride Reduction)
+                    # Pop the oldest 8 frames to create a 50% overlapping stride.
+                    # The next inference will run after exactly 8 more sharp frames are buffered.
+                    for _ in range(8):
+                        frame_buffer.popleft()
                 
             yield FrameResult(
                 frame=frame_filename,
@@ -87,19 +93,29 @@ if __name__ == "__main__":
             good_frames = 0
             discarded_frames = 0
             saved_memory_mb = 0.0
+            total_confidence = 0.0
             
             all_results = []
             
             for result, frame_size_mb in process_video(test_video, "frames", blur_threshold=100.0):
                 print(result.model_dump())
+                
+                # If accuracy percentage (confidence) is more than 90%, print an alert
+                if result.confidence > 0.90 and result.event_label != "Normal":
+                    print(f"⚠️ [ALERT] High Accuracy Detection: '{result.event_label}' detected with {result.confidence*100:.2f}% accuracy at {result.frame}!")
+                
                 all_results.append(result.model_dump())
                 
                 total_frames += 1
+                total_confidence += result.confidence
+                
                 if result.is_blurry or result.is_duplicate:
                     discarded_frames += 1
                     saved_memory_mb += frame_size_mb
                 else:
                     good_frames += 1
+                    
+            avg_accuracy = (total_confidence / total_frames * 100) if total_frames > 0 else 0.0
                     
             print("\n" + "="*40)
             print("         PROCESSING SUMMARY")
@@ -108,6 +124,7 @@ if __name__ == "__main__":
             print(f"Good Frames Saved     : {good_frames}")
             print(f"Frames Discarded      : {discarded_frames}")
             print(f"Estimated Memory Saved: {saved_memory_mb:.2f} MB (uncompressed)")
+            print(f"Average Model Accuracy: {avg_accuracy:.2f}%")
             print("="*40)
             
             # Export to Excel
