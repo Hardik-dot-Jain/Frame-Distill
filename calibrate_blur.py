@@ -3,9 +3,12 @@ import cv2
 import numpy as np
 import glob
 
-def calculate_blur(image_path: str) -> float:
+def calculate_blur(image) -> float:
     """Calculate the blur score of an image using Variance of Laplacian."""
-    img = cv2.imread(image_path)
+    if isinstance(image, str):
+        img = cv2.imread(image)
+    else:
+        img = image
     if img is None:
         return 0.0
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
